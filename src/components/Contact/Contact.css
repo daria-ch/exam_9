@@ -1,0 +1,12 @@
+.contact-info {
+    display: flex;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-button {
+    display: flex;
+}
