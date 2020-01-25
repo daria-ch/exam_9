@@ -20,7 +20,6 @@ class Contacts extends Component {
                 alt={this.props.contacts[contact].name}
                 name={this.props.contacts[contact].name}
                 showInfo={() => this.props.getContact(contact)}
-                removeContact={() => this.props.removeContact(contact)}
             />
         });
 
@@ -31,6 +30,7 @@ class Contacts extends Component {
             image={this.props.contact.image}
             alt={this.props.contact.name}
             id={this.props.id}
+            removeContact={() => this.props.removeContact(this.props.id)}
         />;
 
         if (this.props.loading) {
