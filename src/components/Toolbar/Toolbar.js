@@ -1,5 +1,6 @@
 import React from 'react';
 import './Toolbar.css';
+import {NavLink} from "react-router-dom";
 
 
 const Toolbar = () => (
@@ -7,7 +8,7 @@ const Toolbar = () => (
         <div className='Toolbar-text'>
             Contacts
         </div>
-        <button className='new-contact-btn'>Add new contact</button>
+        <NavLink className='new-contact-btn' to={'/contact'}>Add new contact</NavLink>
     </header>
 );
 
