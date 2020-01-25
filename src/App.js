@@ -9,8 +9,8 @@ const App = () => (
     <Layout>
         <Switch>
             <Route path='/' exact component={Contacts}/>
-            <Route path='/contact' exact component={NewContact}/>
             <Route path='/contact/:id/edit' exact component={EditContact}/>
+            <Route path='/contact' exact component={NewContact}/>
             <Route render={() => <h1>Not found</h1>}/>
         </Switch>
     </Layout>

@@ -1,5 +1,7 @@
 import React, {Fragment} from 'react';
 import Button from "../UI/Button/Button/Button";
+import './Contact.css';
+import {NavLink} from "react-router-dom";
 
 const Contact = props => {
     return (
@@ -7,14 +9,14 @@ const Contact = props => {
             <div className='contact-info'>
                 <img src={props.image} alt={props.alt}/>
                 <div className='info'>
-                    <h3>{props.name}</h3>
+                    <h1>{props.name}</h1>
                     <span>{props.number}</span>
                     <span>{props.email}</span>
                 </div>
             </div>
             <div className='info-buttons'>
-                <Button>Edit</Button>
-                <Button>Delete</Button>
+                <NavLink className='edit-button' to={'/contact/' + props.id + '/edit'}>Edit</NavLink>
+                <Button onClick={props.removeContact}>Delete</Button>
             </div>
         </Fragment>
     );

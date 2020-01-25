@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {getContacts} from "../../store/actions/actions";
+import {closeModalHandler, getContact, getContacts, removeContact} from "../../store/actions/actions";
 import {connect} from "react-redux";
 import Card from "../../components/Card/Card";
 import Modal from "../../components/UI/Modal/Modal";
@@ -7,48 +7,31 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import Contact from "../../components/Contact/Contact";
 
 class Contacts extends Component {
-    state = {
-        show: false,
-    };
 
     componentDidMount() {
         this.props.getContacts();
     }
 
-    showCancelHandler = () => {
-        this.setState({show: false});
-    };
-
-    showInfoHandler = () => {
-        this.setState({show: true});
-    };
-
-
     render() {
         let contacts = Object.keys(this.props.contacts).map(contact => {
-            console.log(this.props.contacts[contact]);
             return <Card
                 key={contact}
                 image={this.props.contacts[contact].image}
                 alt={this.props.contacts[contact].name}
                 name={this.props.contacts[contact].name}
-                showInfo={this.showInfoHandler}
-            >
-                <Modal
-                    show={this.state.show}
-                    close={this.showCancelHandler}
-                >
-                    <Contact
-                        key={contact}
-                        image={this.props.contacts[contact].image}
-                        alt={this.props.contacts[contact].name}
-                        name={this.props.contacts[contact].name}
-                        email={this.props.contacts[contact].email}
-                        number={this.props.contacts[contact].number}
-                    />
-                </Modal>
-            </Card>
+                showInfo={() => this.props.getContact(contact)}
+                removeContact={() => this.props.removeContact(contact)}
+            />
         });
+
+        let contact = <Contact
+            name={this.props.contact.name}
+            number={this.props.contact.number}
+            email={this.props.contact.email}
+            image={this.props.contact.image}
+            alt={this.props.contact.name}
+            id={this.props.id}
+        />;
 
         if (this.props.loading) {
             contacts = <Spinner/>
@@ -57,6 +40,12 @@ class Contacts extends Component {
         return (
             <Fragment>
                 {contacts}
+                <Modal
+                    show={this.props.show}
+                    close={this.props.closeModalHandler}
+                >
+                    {contact}
+                </Modal>
             </Fragment>
         );
     }
@@ -64,11 +53,17 @@ class Contacts extends Component {
 
 const mapStateToProps = state => ({
     contacts: state.contacts,
-    loading: state.loading
+    loading: state.loading,
+    contact: state.contact,
+    show: state.show,
+    id: state.id
 });
 
 const mapDispatchToProps = dispatch => ({
-    getContacts: () => dispatch(getContacts())
+    getContacts: () => dispatch(getContacts()),
+    getContact: id => dispatch(getContact(id)),
+    removeContact: id => dispatch(removeContact(id)),
+    closeModalHandler: () => dispatch(closeModalHandler())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
